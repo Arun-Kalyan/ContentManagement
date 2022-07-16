@@ -3,6 +3,34 @@
   <display-name>ContentManagement</display-name>
   <welcome-file-list>
     <welcome-file>Upload.jsp</welcome-file>
-    
+    <welcome-file>display.jsp</welcome-file>
   </welcome-file-list>
+  
+  <servlet>
+		<servlet-name>uploadServlet</servlet-name>
+		<servlet-class>cms.controller.UploadServlet</servlet-class>
+		<multipart-config>
+			<!-- enter your values -->
+			<max-file-size>99999999</max-file-size>
+			<max-request-size>99999999</max-request-size>
+			<file-size-threshold>99999999</file-size-threshold>
+		</multipart-config>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>uploadServlet</servlet-name>
+		<url-pattern>/uploadServlet</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+    <servlet-name>FilterServlet</servlet-name>
+    <servlet-class>cms.controller.FilterServlet</servlet-class>
+</servlet>
+
+<servlet-mapping>
+    <servlet-name>FilterServlet</servlet-name>
+    <url-pattern>/filterServlet.jsp</url-pattern>
+</servlet-mapping>
+	
+
 </web-app>
