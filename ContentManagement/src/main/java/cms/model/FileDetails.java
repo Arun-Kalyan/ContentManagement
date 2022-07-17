@@ -12,6 +12,7 @@ public class FileDetails {
 	private String first_name;
 	private String file_name;
 	private String type;
+	private String courses;
 	private String location;
 	private long size;
 	private Timestamp time;
@@ -51,7 +52,29 @@ public class FileDetails {
 	public String getType() {
 		return type;
 	}
+	
 
+	public String getCourses() {
+		return courses;
+	}
+
+	public void setCourses(String courses) {
+		this.courses = courses;
+	}
+
+	public FileDetails(int id, String first_name, String file_name, String type, String location, long size,
+			Timestamp time, String courses) {
+		super();
+		this.id = id;
+		this.first_name = first_name;
+		this.file_name = file_name;
+		this.type = type;
+		this.location = location;
+		this.size = size;
+		this.time = time;
+		this.courses = courses;
+	}
+	
 	public FileDetails(int id, String first_name, String file_name, String type, String location, long size,
 			Timestamp time) {
 		super();
@@ -63,6 +86,7 @@ public class FileDetails {
 		this.size = size;
 		this.time = time;
 	}
+	
 
 	public void setType(String type) {
 		this.type = type;

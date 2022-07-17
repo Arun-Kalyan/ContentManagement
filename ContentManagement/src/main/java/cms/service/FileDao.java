@@ -37,6 +37,7 @@ public class FileDao {
 				fileDetail.setLocation(rs.getString(6));
 				fileDetail.setSize(rs.getLong(7));
 				fileDetail.setTime(rs.getTimestamp(8));
+				fileDetail.setCourses(rs.getString(9));
 
 				list.add(fileDetail);
 			}

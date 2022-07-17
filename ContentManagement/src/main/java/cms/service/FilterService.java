@@ -36,7 +36,8 @@ public class FilterService {
 				String locationValue = resultSet.getString("location");
 				long fileSize = resultSet.getLong("size");
 				Timestamp time = resultSet.getTimestamp("time");
-				FileDetails f = new FileDetails(serial, firstName, fileName, fileType, locationValue, fileSize, time);
+				String courses = resultSet.getString("courses");
+				FileDetails f = new FileDetails(serial, firstName, fileName, fileType, locationValue, fileSize, time, courses);
 				list.add(f);
 				total+=1;
 			}

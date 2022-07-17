@@ -25,7 +25,7 @@ body {
             name="firstName" placeholder="Your Name:" name="search">
           <div class="form-group">
             <br> <span class="label danger">Course Selection</span>
-            <br> <br> <select name="course"
+            <br> <br> <select name="courses"
               class="form-control" id="files">
               <option value="Android App Development">Android
                 App Development</option>

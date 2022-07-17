@@ -341,6 +341,7 @@ a {
               <th>Uploaded By</th>
               <th>File Name</th>
               <th>File Type</th>
+              <th>Course</th>
               <th>Location</th>
               <th>Size</th>
               <th>Upload Time</th>
@@ -348,14 +349,16 @@ a {
             </tr>
             <%
             for (FileDetails f : ans) {
+                String coursePath = f.getCourses() != null ? f.getCourses().replace(" ", "%20") : "";
+            	String downloadUrl =  "download?fileName=" + f.getFile_name()+"&courses=" +coursePath;
+                System.out.println(downloadUrl);
             %>
             <tr>
               <td><%=f.getFirst_name()%></td>
-              <td name="demo"><a href="download?demo="
-                <%=f.getFile_name()%>"
-              target="_blank"><%=f.getFile_name()%></a></td>
+              <td name="demo"><a href=<%=downloadUrl%> target="_blank"><%=f.getFile_name()%></a></td>
               <td><%=f.getType()%></td>
-              <td><%=f.getLocation()%></td>
+              <td><%=f.getCourses()%></td>
+              <td name="loc"><%=f.getLocation()%></td>
               <td><%=f.getSize()%></td>
               <td><%=f.getTime()%></td>
             </tr>

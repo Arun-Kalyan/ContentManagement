@@ -12,19 +12,20 @@ public class FileUploadDao {
 	private static String location = "F:Zoho\\Task One\\Data";
 
 	public int uploadFile(String firstName, String fileName, InputStream file, String fileType, String location,
-			long size) {
+			long size, String courses) {
 		int row = 0;
 
 		try {
 
 			Connection connection = DbConnection.getConnection();
-			String sql = "INSERT INTO files (first_name, file_name, type, location, size) val ues (?, ?, ?, ?, ?)";
+			String sql = "INSERT INTO files (first_name, file_name, type, location, size, courses) values (?, ?, ?, ?, ?, ?)";
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1, firstName);
 			preparedStatement.setString(2, fileName);
 			preparedStatement.setString(3, fileType);
 			preparedStatement.setString(4, location);
 			preparedStatement.setLong(5, size);
+			preparedStatement.setString(6, courses);
 			row = preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			printSQLException(e);

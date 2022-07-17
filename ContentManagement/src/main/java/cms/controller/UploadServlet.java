@@ -48,7 +48,7 @@ public class UploadServlet extends HttpServlet {
 		// gets values of text fields
 		String firstName = request.getParameter("firstName");
 		String lastName = request.getParameter("fileName");
-		String courses = request.getParameter("course");
+		String courses = request.getParameter("courses");
 		String path = "F:\\Zoho\\Task One\\";
 		path += courses + "\\";
 		System.out.println("Course is: " + courses);
@@ -73,8 +73,8 @@ public class UploadServlet extends HttpServlet {
 		String contentType = request.getContentType();
 		if ((contentType != null) && contentType.startsWith("multipart/form-data")) {
 			// obtains the upload file part in this multipart request
-			Part filePart = request.getPart("photo");
-			System.out.println(filePart);
+			Part filePart = request.getPart("file");
+			System.out.println("filepart is:"+filePart);
 
 			if (filePart != null) {
 				// prints out some information for debugging
@@ -84,7 +84,7 @@ public class UploadServlet extends HttpServlet {
 				fileName = filePart.getSubmittedFileName();
 				System.out.println("File Name:" + fileName);
 				inputStream = filePart.getInputStream();
-				fileType = getFileExtension(fileName);
+				fileType = getFileExtension(fileName);	
 				size = filePart.getSize();
 				size /= 1000;
 				System.out.println("File Extension:" + fileType);
@@ -104,7 +104,7 @@ public class UploadServlet extends HttpServlet {
 			}
 
 			// sends the statement to the database server
-			int row = fileUploadDao.uploadFile(firstName, fileName, inputStream, fileType, location, size);
+			int row = fileUploadDao.uploadFile(firstName, fileName, inputStream, fileType, location, size, courses);
 			if (row > 0) {
 				message = "File uploaded and saved into database";
 			}
