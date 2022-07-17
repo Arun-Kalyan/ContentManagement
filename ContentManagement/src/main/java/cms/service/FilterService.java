@@ -6,7 +6,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cms.DbConnection;
 import cms.model.FileDetails;
@@ -71,6 +73,37 @@ public class FilterService {
 		System.out.println("fileTypes1:" +fileTypes);
 		return fileTypes;
 	}
+	
+	public List<String> getCourses() {
+		List<String> courses = new ArrayList<>();
+		ResultSet resultSet = null;
+		try {
+			String query = "select distinct(courses) as courses from files";
+			Connection connection = DbConnection.getConnection();
+			Statement statement = connection.createStatement();
+			System.out.println("received query: "+query);
+			resultSet = statement.executeQuery(query);
+			
+			while (resultSet.next()) {
+				courses.add(resultSet.getString("courses"));
+			}
+			connection.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return courses;
+	}
+	
+	public Map<String,String> getSizeFilter() {
+		Map<String,String> sizeTypes = new HashMap<>();
+		sizeTypes.put("Lesser", "<=");
+		sizeTypes.put("Greater", ">=");
+		sizeTypes.put("Equals", "=");
+		sizeTypes.put("Between", "Between");
+
+		return sizeTypes;
+	}
+	
 	
 	private void printSQLException(SQLException ex) {
 		for (Throwable e : ex) {

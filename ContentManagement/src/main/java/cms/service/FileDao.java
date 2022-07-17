@@ -17,7 +17,7 @@ public class FileDao {
 	public FileDao() {
 	}
 
-	public static List<FileDetails> viewAllEmployees(int start, int total) {
+	public static List<FileDetails> viewAllRecords(int start, int total) {
 	
 		List<FileDetails> list = new ArrayList<FileDetails>();
 		FileDetails fileDetail = null;

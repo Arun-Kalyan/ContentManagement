@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
   pageEncoding="ISO-8859-1"%>
-  <%@page import="java.util.*"%>
-  <%@page import="cms.model.FileDetails"%>
-  <%@page import="cms.service.FileDao"%>
+<%@page import="java.util.*"%>
+<%@page import="cms.model.FileDetails"%>
+<%@page import="cms.service.FileDao"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -63,6 +63,12 @@
 		document.getElementById('hideDiv2').style.display = "none";
 		document.getElementById('p2').style.display = "none";
 	}
+
+	function customReset() {
+		document.getElementById("files").value = "all";
+		document.getElementById("grade").value = "None";
+		document.getElementById("search").value = "";
+	}
 </script>
 <style>
 #users {
@@ -94,6 +100,21 @@
 
 a {
 	color: #800000;
+}
+
+.header {
+	overflow: hidden;
+	background-color: #f1f1f1;
+	padding: 20px 10px;
+	margin-bottom: 10px;
+}
+
+.alignCenter {
+	text-align: center;
+}
+
+.alignRightContent {
+	text-align: right;
 }
 
 .mb10 {
@@ -199,6 +220,7 @@ a {
 
 .footer {
 	margin: 10px;
+	float: right;
 }
 
 .alignRight {
@@ -212,30 +234,60 @@ a {
 </style>
 </head>
 <body>
-  <br>
-  <br>
-  <center>
-    <h1>File Explorer!</h1>
-  </center>
+  <div class="header">
+    <h1 class="alignCenter">File Explorer</h1>
+  </div>
   <input type="button" class="btn btn-danger" value="Home"
     onclick="window.location='Upload.jsp'">
   <div class="list-group pd">
     <div class="filter">
       <form name="f1" method="post" action="filterServlet">
         <div class="row">
-          <div class="col-md-3">
+          <div class="col-md-2">
             <input type="text" class="form-control" id="searchid"
               placeholder="Search.." name="search">
           </div>
-          <div class="col-md-1">
-            <select name="files" class="form-control" id="files">
+          <div class="col-md-2">
+            <select name="courses" class="form-control" id="files"
+              onchange="getSelectValue()">
               <option value="all">all</option>
               <%
-              List<String> fileTypes = (ArrayList<String>)request.getAttribute("typesList");
-              for (String str : fileTypes) {
+              List<String> fileTypes2 = (ArrayList<String>) request.getAttribute("courses");
+              for (String str : fileTypes2) {
+              	String type = (String) request.getAttribute("selectedCourseType");
+              	boolean isEqual = str.equals(type);
+              	if (isEqual) {
+              %>
+              <option selected="selected" value=<%=str%>><%=str%></option>
+              <%
+              } else {
               %>
               <option value=<%=str%>><%=str%></option>
               <%
+              }
+              }
+              %>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <select name="files" class="form-control" id="files"
+              onchange="getSelectValue()">
+              <option value="all">all</option>
+              <%
+              List<String> fileTypes = (ArrayList<String>) request.getAttribute("typesList");
+              for (String str : fileTypes) {
+              	String type = (String) request.getAttribute("selectedFileType");
+              	System.out.println("type is:" + type);
+              	boolean isEqual = str.equals(type);
+              	if (isEqual) {
+              %>
+              <option selected="selected" value=<%=str%>><%=str%></option>
+              <%
+              } else {
+              %>
+              <option value=<%=str%>><%=str%></option>
+              <%
+              }
               }
               %>
             </select>
@@ -243,11 +295,24 @@ a {
           <div class="col-md-2">
             <select name="grade" class="form-control" id="grade"
               onchange="hideDiv(this)">
-              <option value="all">None</option>
-              <option value=">=">Greater than</option>
-              <option value="<=">Lesser than</option>
-              <option value="=">Equal to</option>
-              <option value="Between">Between</option>
+              <option value="None">None</option>
+              <%
+              Map<String, String> sizeList = (HashMap) request.getAttribute("sizeTypeList");
+              for (Map.Entry<String, String> set : sizeList.entrySet()) {
+              	String sizeInput = (String) request.getAttribute("selectedSizeType");
+              	System.out.println("sizeinput is:" + sizeInput);
+              	boolean isEqual = set.getValue().equals(sizeInput);
+              	if (isEqual) {
+              %>
+              <option selected="selected" value=<%=set.getValue()%>><%=set.getKey()%></option>
+              <%
+              } else {
+              %>
+              <option value=<%=set.getValue()%>><%=set.getKey()%></option>
+              <%
+              }
+              }
+              %>
             </select>
             <div id="p1" class="prize-div">
               <div id="hideDiv" class="prize">
@@ -260,7 +325,9 @@ a {
                   <br> <label for="lname">Maximum</label> &nbsp;<input
                     type="text" id="lname" name="max"><br>
                   <br> <input type="button" class="btn btn-danger"
-                    value="Submit" onClick="closeDiv()">
+                    value="Submit" onClick="closeDiv()"> <input
+                    type="button" class="btn btn-danger" value="Cancel"
+                    onClick="closeDiv()">
                 </center>
               </div>
             </div>
@@ -268,73 +335,67 @@ a {
           <div id="p2" class="prize-div2">
             <div id="hideDiv2" class="prize2">
               <br>
-              <center>
+              <div class="alignCenter">
                 <label for="fname">Enter the value:</label> <input
                   type="text" id="fname" class="first" name="single"><br>
                 <br> <input type="button" class="btn btn-danger"
                   value="Submit" onClick="closeDiv2()"> <input
-                  type="button" class="btn btn-danger" value="Cancel"
+                  type="reset" class="btn btn-danger" value="Cancel"
                   onClick="closeDiv2()">
-              </center>
+              </div>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-4 alignRightContent">
             <input type="submit" class="btn btn-primary" name="submit"
               value="Apply" /> <input type="submit" name="submit"
-              class="btn btn-secondary" value="Clear" />
+              onclick="customReset();" class="btn btn-secondary"
+              value="Clear" />
           </div>
-          
         </div>
     </div>
     </form>
-    
     <div>
-
-      <% 
-      List<FileDetails> filtered = (ArrayList<FileDetails>)request.getAttribute("filesList");
+      <%
+      List<FileDetails> filtered = (ArrayList<FileDetails>) request.getAttribute("filesList");
       int size = 0;
       size = filtered.size();
       if (size == 0) {
       %>
-
       <div class="demo">
-        <br>
-        <br>
-        <center>
+        <div class="alignCenter">
           <h3>Oops..No records found!</h3>
           <img src="nodataanim.gif" alt="No image found" width="200"
             height="200">
+        </div>
       </div>
       <%
-      } 
-      else {
+      } else {
 
       //String spageid = request.getParameter("page");
-      int pageid =1;
+      int pageid = 1;
       try {
-         pageid = Integer.parseInt(request.getParameter("page"));
+      	pageid = Integer.parseInt(request.getParameter("page"));
       } catch (NumberFormatException nfe) {
-        pageid = 1;
-        System.out.println("NumberFormat Exception: invalid input string");
+      	pageid = 1;
+      	System.out.println("NumberFormat Exception: invalid input string");
       }
- 
+
       int total = 10;
       System.out.println("old page id:" + pageid);
       if (pageid == 1) {
       } else {
 
-        pageid = pageid - 1;
-        pageid = (pageid * total) + 1;
+      	pageid = pageid - 1;
+      	pageid = (pageid * total) + 1;
       }
       System.out.println("filtered size:" + filtered.size());
       System.out.println("new page id:" + pageid);
-      List<FileDetails> f2 = FileDao.viewAllEmployees(pageid, total);
+      List<FileDetails> f2 = FileDao.viewAllRecords(pageid, total);
       List<FileDetails> ans = FileDao.getRecords(filtered, pageid, total);
       System.out.println("ans oda size:" + ans.size());
       %>
       `
       <form name="f2" method="get" action="#">
-
         <table id="users" border="1">
           <table id="users">
             <tr>
@@ -345,88 +406,98 @@ a {
               <th>Location</th>
               <th>Size</th>
               <th>Upload Time</th>
-
             </tr>
             <%
             for (FileDetails f : ans) {
-                String coursePath = f.getCourses() != null ? f.getCourses().replace(" ", "%20") : "";
-            	String downloadUrl =  "download?fileName=" + f.getFile_name()+"&courses=" +coursePath;
-                System.out.println(downloadUrl);
+            	String coursePath = f.getCourses() != null ? f.getCourses().replace(" ", "%20") : "";
+            	String fileNameDownload = f.getFile_name() != null ? f.getFile_name().replace(" ", "%20") : "";
+            	String downloadUrl = "download?fileName=" + fileNameDownload + "&courses=" + coursePath;
+            	System.out.println(downloadUrl);
             %>
             <tr>
               <td><%=f.getFirst_name()%></td>
-              <td name="demo"><a href=<%=downloadUrl%> target="_blank"><%=f.getFile_name()%></a></td>
+              <td name="demo"><a href=<%=downloadUrl%>
+                target="_blank"><%=f.getFile_name()%></a></td>
               <td><%=f.getType()%></td>
               <td><%=f.getCourses()%></td>
               <td name="loc"><%=f.getLocation()%></td>
               <td><%=f.getSize()%></td>
               <td><%=f.getTime()%></td>
             </tr>
-
             <%
             }
             %>
           </table>
-
           <div class="footer">
             <nav class="alignRight" aria-label="Page navigation example">
+              <div id="navigation">
+                <ul class="pagination">
+                  <%
+                  int count = ans.size();
+                  System.out.println("check total: " + count);
+                  int pages = filtered.size() / 10;
+                  if (filtered.size() % 10 != 0)
+                  	pages += 1;
+                  int currentPage = 1;
+                  try {
+                  	currentPage = Integer.parseInt((String) (request.getAttribute("currentPage")));
+                  } catch (NumberFormatException nfe) {
 
-            <div id="navigation">
-              <ul class="pagination">
-           
-                <%
-                int count = ans.size();
-                System.out.println("check total: " + count);
-                int pages = filtered.size() / 10;
-                if (filtered.size() % 10 != 0)
-                  pages += 1;
-                int currentPage = 1;
-                try {
-                    currentPage = Integer.parseInt((String)(request.getAttribute("currentPage")));
-                 } catch (NumberFormatException nfe) {
-     
-                   System.out.println("NumberFormat Exception: invalid input string"+request.getParameter("currentPage"));
-                 }
-                System.out.println("Final total rows: " + ans.size() + " and given limit count is: " + 10);
-                System.out.println("final pages:" + pages);
-      
-                if(currentPage  == 1){%>
-                <li class="page-item disabled"><a
-                        href="#" class="page-link" href="#">Previous</a></li>            
-              <%}
-                else {%>
-                	<li class="page-item"><a href="filterServlet?page=<%=currentPage-1%>" class="page-link" href="#">Previous</a></li>
-                  <% }
-               
-                for (int i = 1; i <= pages; i++) {
+                  	System.out.println("NumberFormat Exception: invalid input string" + request.getParameter("currentPage"));
+                  }
+                  System.out.println("Final total rows: " + ans.size() + " and given limit count is: " + 10);
+                  System.out.println("final pages:" + pages);
+
+                  if (currentPage == 1) {
+                  %>
+                  <li class="page-item disabled"><a href="#"
+                    class="page-link" href="#">Previous</a></li>
+                  <%
+                  } else {
+                  %>
+                  <li class="page-item"><a
+                    href="filterServlet?page=<%=currentPage - 1%>"
+                    class="page-link" href="#">Previous</a></li>
+                  <%
+                  }
+
+                  for (int i = 1; i <= pages; i++) {
                   System.out.println("Current Page is:" + currentPage);
                   String currentClass = "page-item";
                   String tempClass = " active";
-                  if (currentPage == i) {%>
-                    <li class="page-item active"><a
-                        href="filterServlet?page=<%=i%>" class="page-link" href="#"><%=i%></a></li>
-                  <%}else{%>  
-                    <li class="page-item"><a
-                    href="filterServlet?page=<%=i%>" class="page-link" href="#"><%=i%></a></li>
-                  <%}%>
-                  
-                  <%}
-                  if(currentPage  == pages){%>
-                <li class="page-item disabled"><a
-                        href="#" class="page-link" href="#">Next</a></li>            
-              <%}
-                else {%>
-                  <li class="page-item"><a href="filterServlet?page=<%=currentPage+1%>" class="page-link" href="#">Next</a></li>
-                   
-                <%}}%>
-              </ul>
+                  if (currentPage == i) {
+                  %>
+                  <li class="page-item active"><a
+                    href="filterServlet?page=<%=i%>" class="page-link"
+                    href="#"><%=i%></a></li>
+                  <%
+                  } else {
+                  %>
+                  <li class="page-item"><a
+                    href="filterServlet?page=<%=i%>" class="page-link"
+                    href="#"><%=i%></a></li>
+                  <%
+                  }
+                  %>
+                  <%
+                  }
+                  if (currentPage == pages) {
+                  %>
+                  <li class="page-item disabled"><a href="#"
+                    class="page-link" href="#">Next</a></li>
+                  <%
+                  } else {
+                  %>
+                  <li class="page-item"><a
+                    href="filterServlet?page=<%=currentPage + 1%>"
+                    class="page-link" href="#">Next</a></li>
+                  <%
+                  }
+                  }
+                  %>
+                </ul>
             </nav>
           </div>
           </div>
-
-
-         
-        
 </body>
-    
 </html>

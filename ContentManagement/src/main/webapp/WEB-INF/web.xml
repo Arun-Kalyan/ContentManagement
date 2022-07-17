@@ -2,6 +2,7 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
   <display-name>ContentManagement</display-name>
   <welcome-file-list>
+  <welcome-file>filterServlet</welcome-file>
     <welcome-file>Upload.jsp</welcome-file>
     <welcome-file>display.jsp</welcome-file>
   </welcome-file-list>
@@ -22,7 +23,7 @@
 		<url-pattern>/uploadServlet</url-pattern>
 	</servlet-mapping>
 	
-	<servlet>
+<!-- 	<servlet>
     <servlet-name>FilterServlet</servlet-name>
     <servlet-class>cms.controller.FilterServlet</servlet-class>
 </servlet>
@@ -30,7 +31,7 @@
 <servlet-mapping>
     <servlet-name>FilterServlet</servlet-name>
     <url-pattern>/filterServlet.jsp</url-pattern>
-</servlet-mapping>
+</servlet-mapping> -->
 
 <servlet>
 		<servlet-name>download</servlet-name>
