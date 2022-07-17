@@ -389,6 +389,15 @@ a {
                  }
                 System.out.println("Final total rows: " + ans.size() + " and given limit count is: " + 10);
                 System.out.println("final pages:" + pages);
+      
+                if(currentPage  == 1){%>
+                <li class="page-item disabled"><a
+                        href="#" class="page-link" href="#">Previous</a></li>            
+              <%}
+                else {%>
+                	<li class="page-item"><a href="filterServlet?page=<%=currentPage-1%>" class="page-link" href="#">Previous</a></li>
+                  <% }
+               
                 for (int i = 1; i <= pages; i++) {
                   System.out.println("Current Page is:" + currentPage);
                   String currentClass = "page-item";
@@ -400,16 +409,23 @@ a {
                     <li class="page-item"><a
                     href="filterServlet?page=<%=i%>" class="page-link" href="#"><%=i%></a></li>
                   <%}%>
-                <%}%>
+                  
+                  <%}
+                  if(currentPage  == pages){%>
+                <li class="page-item disabled"><a
+                        href="#" class="page-link" href="#">Next</a></li>            
+              <%}
+                else {%>
+                  <li class="page-item"><a href="filterServlet?page=<%=currentPage+1%>" class="page-link" href="#">Next</a></li>
+                   
+                <%}}%>
               </ul>
             </nav>
           </div>
           </div>
 
 
-          <%
-          }
-          %>
+         
         
 </body>
     

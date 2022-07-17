@@ -47,9 +47,9 @@ body {
           </center>
         </form>
         
-         <form method="post" class="form-group" action="filterServlet?page=1">
+        <center> <form method="post" class="form-group" action="filterServlet?page=1">
             <input type="submit" class="btn btn-danger" value="Load"/>
-              </form>
+              </form></center>
       </div>
     </div>
   </div>
