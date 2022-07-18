@@ -97,7 +97,7 @@ public class FilterService {
 	public Map<String,String> getSizeFilter() {
 		Map<String,String> sizeTypes = new HashMap<>();
 		sizeTypes.put("Lesser", "<=");
-		sizeTypes.put("Greater", ">=");
+		sizeTypes.put("Greater", "greater");
 		sizeTypes.put("Equals", "=");
 		sizeTypes.put("Between", "Between");
 

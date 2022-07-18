@@ -7,17 +7,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link
-  href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-  rel="stylesheet"
-  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-  crossorigin="anonymous">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script type="text/javascript">
 	function hideDiv(elem) {
 
 		console.log(elem.value);
 		console.log(typeof elem.value);
-		if (elem.value.valueOf() == new String(">=").valueOf()) {
+		if (elem.value.valueOf() == new String("greater").valueOf()) {
 			hideDiv2(elem);
 			return;
 		}
@@ -231,6 +228,21 @@ a {
 	color: #ffffff;
 	background: #f1d74c;
 }
+
+.btnadd {
+  background-color: #A90000;
+  border: none;
+  color: white;
+  padding: 12px 16px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Darker background on mouse-over */
+.btn:hover {
+  background-color: RoyalBlue;
+}t
+
 </style>
 </head>
 <body>
@@ -243,11 +255,11 @@ a {
     <div class="filter">
       <form name="f1" method="post" action="filterServlet">
         <div class="row">
-          <div class="col-md-2">
+          <div class="col-md-3">
             <input type="text" class="form-control" id="searchid"
               placeholder="Search.." name="search">
           </div>
-          <div class="col-md-2">
+          <%-- <div class="col-md-2">
             <select name="courses" class="form-control" id="files"
               onchange="getSelectValue()">
               <option value="all">all</option>
@@ -268,7 +280,7 @@ a {
               }
               %>
             </select>
-          </div>
+          </div> --%>
           <div class="col-md-2">
             <select name="files" class="form-control" id="files"
               onchange="getSelectValue()">
@@ -326,7 +338,7 @@ a {
                     type="text" id="lname" name="max"><br>
                   <br> <input type="button" class="btn btn-danger"
                     value="Submit" onClick="closeDiv()"> <input
-                    type="button" class="btn btn-danger" value="Cancel"
+                    type="reset" class="btn btn-danger" value="Cancel"
                     onClick="closeDiv()">
                 </center>
               </div>
@@ -345,6 +357,7 @@ a {
               </div>
             </div>
           </div>
+         
           <div class="col-md-4 alignRightContent">
             <input type="submit" class="btn btn-primary" name="submit"
               value="Apply" /> <input type="submit" name="submit"

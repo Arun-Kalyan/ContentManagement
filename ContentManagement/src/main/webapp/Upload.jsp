@@ -12,6 +12,28 @@ body {
 	background-image: url('bg.png');
 }
 </style>
+
+<script>
+function validateForm() {
+	  let x = document.forms["upload"]["firstName"].value;
+	  if (x == "") {
+	    alert("Name must be filled out!");
+	    return false;
+	  }
+	 
+	}
+/* function validateFile() {
+	     
+	if (document.getElementById("file").files.length === 0) {
+		   alert("No files selected");
+		   return false;
+		 }
+        
+      }   */
+	
+</script>
+
+
 </head>
 <body>
   <div class="container col-lg-6">
@@ -19,12 +41,12 @@ body {
     <h1 class="text-center">Upload Section!</h1>
     <div class="card">
       <div class="card-body">
-        <form method="post" class="form-group" action="uploadServlet" enctype="multipart/form-data">
+        <form name= "upload" method="post" class="form-group" onsubmit="return validateForm(); return validateFile();" action="uploadServlet" enctype="multipart/form-data">
           <br> <label><b>Course Instructor</b></label> <input
-            type="text" class="form-control" id="searchid"
+            type="text" class="form-control" id="searchid" required
             name="firstName" placeholder="Your Name:" name="search">
           <div class="form-group">
-            <br> <span class="label danger">Course Selection</span>
+            <br><b><span class="label danger">Course Selection</span></b>
             <br> <br> <select name="courses"
               class="form-control" id="files">
               <option value="Android App Development">Android
@@ -38,7 +60,7 @@ body {
           </div>
           <br>
           <div class="form-group">
-            <label for="Profile Photo">File:</label> <input type="file"
+            <label for="Profile Photo">File:</label> <input type="file" id="file" required
               name="file" size="50" />
           </div>
           <center>
